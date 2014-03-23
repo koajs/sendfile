@@ -1,0 +1,37 @@
+{
+  "name": "koa-sendfile",
+  "description": "basic file-sending utility for koa",
+  "version": "1.0.0",
+  "author": {
+    "name": "Jonathan Ong",
+    "email": "me@jongleberry.com",
+    "url": "http://jongleberry.com",
+    "twitter": "https://twitter.com/jongleberry"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/koajs/sendfile.git"
+  },
+  "bugs": {
+    "url": "https://github.com/koajs/sendfile/issues",
+    "email": "me@jongleberry.com"
+  },
+  "dependencies": {
+    "debug": "*",
+    "finished": "^1.1.1"
+  },
+  "devDependencies": {
+    "koa": "*",
+    "co": "^3.0.5",
+    "should": "^3.0",
+    "mocha": "^1.13",
+    "supertest": "~0.10.0"
+  },
+  "scripts": {
+    "test": "NODE_ENV=test mocha --harmony-generators --require should --reporter spec --bail"
+  },
+  "engines": {
+    "node": ">= 0.11.12"
+  },
+  "license": "MIT"
+}
