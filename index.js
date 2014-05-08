@@ -1,7 +1,6 @@
 
 var extname = require('path').extname
-var finished = require('finished')
-var fs = require('fs')
+var fs = require('mz/fs')
 
 var notfound = {
   ENOENT: true,
@@ -12,7 +11,7 @@ var notfound = {
 module.exports = function* sendfile(path) {
   var stats
   try {
-    stats = yield stat(path)
+    stats = yield fs.stat(path)
   } catch (err) {
     if (notfound[err.code]) return
     err.status = 500
@@ -35,18 +34,10 @@ module.exports = function* sendfile(path) {
       if (fresh) {
         this.response.status = 304
       } else {
-        var stream = this.body = fs.createReadStream(path)
-        // avoid any possible fd leaks
-        finished(this, stream.destroy.bind(stream))
+        this.body = fs.createReadStream(path)
       }
       break
   }
 
   return stats
-}
-
-function stat(filename) {
-  return function (done) {
-    fs.stat(filename, done)
-  }
 }

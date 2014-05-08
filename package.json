@@ -8,17 +8,10 @@
     "url": "http://jongleberry.com",
     "twitter": "https://twitter.com/jongleberry"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/koajs/sendfile.git"
-  },
-  "bugs": {
-    "url": "https://github.com/koajs/sendfile/issues",
-    "email": "me@jongleberry.com"
-  },
+  "repository": "koajs/sendfile",
   "dependencies": {
     "debug": "*",
-    "finished": "^1.1.1"
+    "mz": "0"
   },
   "devDependencies": {
     "koa": "*",
@@ -31,7 +24,7 @@
     "test": "NODE_ENV=test mocha --harmony-generators --require should --reporter spec --bail"
   },
   "engines": {
-    "node": ">= 0.11.12"
+    "node": ">= 0.11.13"
   },
   "license": "MIT"
 }
