@@ -1,39 +1,3 @@
-
-# koa sendfile
-
-Basic file-sending utility for koa. It does the following:
-
-- Check if a file exists
-- Set content-length, content-type, and last-modified headers
-- 304 based on last-modified
-- Handle HEAD requests
-
-It does not:
-
-- Check for malicious paths or hidden files
-- Support directory indexes
-- Cache control
-- OPTIONS method
-
-## API
-
-### var stats = yield* sendfile.call(this, filename)
-
-You must pass `this` as the context. `filename` is the filename of the file.
-
-`stats` is the `fs.stat()` result of the filename. If `stats` exists, that doesn't mean that a response is set - the filename could be a directory. Instead, check `if (this.status)`.
-
-```js
-var sendfile = require('koa-sendfile')
-
-app.use(function* (next) {
-  var stats = yield* sendfile.call(this, '/Users/jong/.bash_profile')
-  if (!this.status) this.throw(404)
-})
-```
-
-## License
-
 The MIT License (MIT)
 
 Copyright (c) 2014 Jonathan Ong me@jongleberry.com
