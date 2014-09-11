@@ -49,7 +49,7 @@ describe('when path exists', function () {
       .expect(/module\.exports/, function (err, res) {
         if (err) return done(err)
 
-        res.headers['content-type'].should.equal('application/javascript')
+        assert(/application\/javascript/.test(res.headers['content-type']))
         res.headers['content-length'].should.equal(String(stats.size))
         res.headers['last-modified'].should.equal(stats.mtime.toUTCString())
 
@@ -88,7 +88,7 @@ describe('when path exists', function () {
       request(app.listen())
       .head('/')
       .expect(200)
-      .expect('content-type', 'application/javascript')
+      .expect('content-type', /application\/javascript/)
       .expect('', done)
     })
   })

@@ -11,14 +11,14 @@
   "repository": "koajs/sendfile",
   "dependencies": {
     "debug": "*",
-    "mz": "0"
+    "mz": "1"
   },
   "devDependencies": {
     "koa": "*",
     "co": "^3.0.5",
     "should": "^3.0",
     "mocha": "^1.13",
-    "supertest": "~0.10.0"
+    "supertest": "0"
   },
   "scripts": {
     "test": "NODE_ENV=test mocha --harmony-generators --require should --reporter spec --bail"
