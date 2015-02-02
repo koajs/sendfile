@@ -10,15 +10,8 @@ var notfound = {
 }
 
 module.exports = function* sendfile(path) {
-  var stats
-  try {
-    stats = yield fs.stat(path)
-  } catch (err) {
-    if (notfound[err.code]) return
-    err.status = 500
-    throw err
-  }
-
+  var stats = yield fs.stat(path).catch(onstaterror)
+  if (!stats) return null
   if (!stats.isFile()) return stats
 
   this.response.lastModified = stats.mtime
@@ -44,4 +37,10 @@ module.exports = function* sendfile(path) {
   }
 
   return stats
+}
+
+function onstaterror(err) {
+  if (notfound[err.code]) return
+  err.status = 500
+  throw err
 }
