@@ -11,6 +11,7 @@
   "repository": "koajs/sendfile",
   "dependencies": {
     "debug": "*",
+    "etag": "^1.5.1",
     "mz": "1"
   },
   "devDependencies": {

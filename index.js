@@ -1,5 +1,6 @@
 
 var extname = require('path').extname
+var calculate = require('etag')
 var fs = require('mz/fs')
 
 var notfound = {
@@ -23,6 +24,9 @@ module.exports = function* sendfile(path) {
   this.response.lastModified = stats.mtime
   this.response.length = stats.size
   this.response.type = extname(path)
+  if (!this.response.etag) this.response.etag = calculate(stats, {
+    weak: true
+  })
 
   // fresh based solely on last-modified
   var fresh = this.request.fresh
