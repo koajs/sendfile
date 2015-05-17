@@ -1,7 +1,7 @@
 {
   "name": "koa-sendfile",
   "description": "basic file-sending utility for koa",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": {
     "name": "Jonathan Ong",
     "email": "me@jongleberry.com",
