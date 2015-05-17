@@ -14,6 +14,7 @@ module.exports = function* sendfile(path) {
   if (!stats) return null
   if (!stats.isFile()) return stats
 
+  this.response.status = 200
   this.response.lastModified = stats.mtime
   this.response.length = stats.size
   this.response.type = extname(path)
