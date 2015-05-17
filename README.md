@@ -7,7 +7,6 @@
 [![Dependency Status][david-image]][david-url]
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
-[![Gittip][gittip-image]][gittip-url]
 
 Basic file-sending utility for koa. It does the following:
 
@@ -54,5 +53,3 @@ app.use(function* (next) {
 [license-url]: LICENSE
 [downloads-image]: http://img.shields.io/npm/dm/koa-sendfile.svg?style=flat-square
 [downloads-url]: https://npmjs.org/package/koa-sendfile
-[gittip-image]: https://img.shields.io/gittip/jonathanong.svg?style=flat-square
-[gittip-url]: https://www.gittip.com/jonathanong/
