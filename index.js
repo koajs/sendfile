@@ -1,4 +1,3 @@
-
 var extname = require('path').extname
 var calculate = require('etag')
 var fs = require('mz/fs')
@@ -9,35 +8,43 @@ var notfound = {
   ENOTDIR: true,
 }
 
-module.exports = function* sendfile(path) {
-  var stats = yield fs.stat(path).catch(onstaterror)
-  if (!stats) return null
-  if (!stats.isFile()) return stats
-
-  this.response.status = 200
-  this.response.lastModified = stats.mtime
-  this.response.length = stats.size
-  this.response.type = extname(path)
-  if (!this.response.etag) this.response.etag = calculate(stats, {
-    weak: true
+module.exports = function sendfile(ctx, path) {
+  return new Promise(function(resolve, reject){
+    fs.stat(path, function(err, stats){
+      if (err) return reject(err);
+      return resolve(stats);
+    });
   })
+  .catch(onstaterror)
+  .then(function(stats){
+    if (!stats) return null
+    if (!stats.isFile()) return stats
 
-  // fresh based solely on last-modified
-  var fresh = this.request.fresh
-  switch (this.request.method) {
-    case 'HEAD':
-      this.response.status = fresh ? 304 : 200
-      break
-    case 'GET':
-      if (fresh) {
-        this.response.status = 304
-      } else {
-        this.body = fs.createReadStream(path)
-      }
-      break
-  }
+    ctx.response.status = 200
+    ctx.response.lastModified = stats.mtime
+    ctx.response.length = stats.size
+    ctx.response.type = extname(path)
+    if (!ctx.response.etag) ctx.response.etag = calculate(stats, {
+      weak: true
+    })
 
-  return stats
+    // fresh based solely on last-modified
+    var fresh = ctx.request.fresh
+    switch (ctx.request.method) {
+      case 'HEAD':
+        ctx.response.status = fresh ? 304 : 200
+        break
+      case 'GET':
+        if (fresh) {
+          ctx.response.status = 304
+        } else {
+          ctx.body = fs.createReadStream(path)
+        }
+        break
+    }
+
+    return stats
+  });
 }
 
 function onstaterror(err) {
