@@ -11,8 +11,8 @@ describe('when path is a directory', function () {
   it('should 404', function (done) {
     var app = koa()
     app.use(function* (next) {
-      var stats = yield* sendfile.call(this, __dirname)
-      assert.ok(stats)
+      sendfile(this, __dirname)
+      .then(assert.ok)
     })
 
     request(app.listen())
@@ -25,8 +25,8 @@ describe('when path does not exist', function () {
   it('should 404', function (done) {
     var app = koa()
     app.use(function* (next) {
-      var stats = yield* sendfile.call(this, __dirname + '/kljasdlkfjaklsdf')
-      assert.ok(!stats)
+      sendfile(this, __dirname + '/kljasdlkfjaklsdf')
+      .then(function(stats){ assert.ok(!stats) })
     })
 
     request(app.listen())
@@ -42,11 +42,13 @@ describe('when path exists', function () {
       var stats, tag
       tag = fs.stat(process.cwd() + '/test/fixture.txt')
       app.use(function* (next) {
-        stats = yield* sendfile.call(this, process.cwd() + '/test/fixture.txt')
-        assert.ok(stats)
-        tag = calculate(stats, {
-          weak: true
-        })
+        sendfile(this, process.cwd() + '/test/fixture.txt')
+        .then(function(s){
+          assert.ok(stats=s)
+          tag = calculate(stats, {
+            weak: true
+          })
+        });
       })
 
       request(app.listen())
@@ -73,8 +75,8 @@ describe('when path exists', function () {
         })
 
         app.use(function* (next) {
-          stats = yield* sendfile.call(this, process.cwd() + '/test/fixture.txt')
-          assert.ok(stats)
+          sendfile(this, process.cwd() + '/test/fixture.txt')
+          .then(assert.ok)
         })
 
         request(app.listen())
@@ -89,8 +91,8 @@ describe('when path exists', function () {
       var stats
       fs.stat(process.cwd() + '/test/fixture.txt').then(function(stat) {
         app.use(function* (next) {
-          stats = yield* sendfile.call(this, process.cwd() + '/test/fixture.txt')
-          assert.ok(stats)
+          sendfile(this, process.cwd() + '/test/fixture.txt')
+          .then(assert.ok)
         })
 
         request(app.listen())
@@ -104,10 +106,12 @@ describe('when path exists', function () {
       var app = koa()
       var stream
       app.use(function* (next) {
-        var stats = yield* sendfile.call(this, process.cwd() + '/test/fixture.txt')
-        assert.ok(stats)
-        stream = this.body
-        this.socket.emit('error', new Error('boom'))
+        sendfile(this, process.cwd() + '/test/fixture.txt')
+        .then(function(stats){
+          assert.ok(stats)
+          stream = this.body
+          this.socket.emit('error', new Error('boom'))
+        })
       })
 
       request(app.listen())
@@ -124,8 +128,8 @@ describe('when path exists', function () {
     it('should 200', function (done) {
       var app = koa()
       app.use(function* (next) {
-        var stats = yield* sendfile.call(this, process.cwd() + '/test/fixture.txt')
-        assert.ok(stats)
+        sendfile(this, process.cwd() + '/test/fixture.txt')
+        then(assert.ok)
       })
 
       request(app.listen())
@@ -139,8 +143,8 @@ describe('when path exists', function () {
       var app = koa()
       fs.stat(process.cwd() + '/test/fixture.txt').then(function(stat) {
         app.use(function* (next) {
-          stats = yield* sendfile.call(this, process.cwd() + '/test/fixture.txt')
-          assert.ok(stats)
+          sendfile(this, process.cwd() + '/test/fixture.txt')
+          .then(assert.ok)
         })
 
         request(app.listen())
