@@ -24,17 +24,17 @@ It does not:
 
 ## API
 
-### var stats = yield* sendfile.call(this, filename)
+### sendfile(context, filename)
 
-You must pass `this` as the context. `filename` is the filename of the file.
+You must pass the koa context. `filename` is the filename of the file.
 
-`stats` is the `fs.stat()` result of the filename. If `stats` exists, that doesn't mean that a response is set - the filename could be a directory. Instead, check `if (this.status)`.
+sendfile returns a promise that resolves to the `fs.stat()` result of the filename. If sendfile() resolves, that doesn't mean that a response is set - the filename could be a directory. Instead, check `if (context.status)`.
 
 ```js
 var sendfile = require('koa-sendfile')
 
 app.use(function* (next) {
-  var stats = yield* sendfile.call(this, '/Users/jong/.bash_profile')
+  var stats = yield sendfile(this, '/Users/jong/.bash_profile')
   if (!this.status) this.throw(404)
 })
 ```
