@@ -34,12 +34,8 @@ sendfile returns a promise that resolves to the `fs.stat()` result of the filena
 var sendfile = require('koa-sendfile')
 
 app.use(function* (next) {
-  var context = this;
-  sendfile(this, '/Users/jong/.bash_profile')
-  .then(function(){
-    if (!context.status) context.throw(404)
-  })
-  .catch(context.throw.bind(context))
+  var stats = yield sendfile(this, '/Users/jong/.bash_profile')
+  if (!this.status) this.throw(404)
 })
 ```
 
