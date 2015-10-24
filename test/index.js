@@ -42,7 +42,7 @@ describe('when path exists', function () {
       var stats, tag
       tag = fs.stat(process.cwd() + '/test/fixture.txt')
       app.use(function* (next) {
-        sendfile(this, process.cwd() + '/test/fixture.txt')
+        yield sendfile(this, process.cwd() + '/test/fixture.txt')
         .then(function(s){
           assert.ok(stats=s)
           tag = calculate(stats, {
@@ -75,7 +75,7 @@ describe('when path exists', function () {
         })
 
         app.use(function* (next) {
-          sendfile(this, process.cwd() + '/test/fixture.txt')
+          yield sendfile(this, process.cwd() + '/test/fixture.txt')
           .then(assert.ok)
         })
 
@@ -91,7 +91,7 @@ describe('when path exists', function () {
       var stats
       fs.stat(process.cwd() + '/test/fixture.txt').then(function(stat) {
         app.use(function* (next) {
-          sendfile(this, process.cwd() + '/test/fixture.txt')
+          yield sendfile(this, process.cwd() + '/test/fixture.txt')
           .then(assert.ok)
         })
 
@@ -106,11 +106,12 @@ describe('when path exists', function () {
       var app = koa()
       var stream
       app.use(function* (next) {
-        sendfile(this, process.cwd() + '/test/fixture.txt')
+        var context = this;
+        yield sendfile(this, process.cwd() + '/test/fixture.txt')
         .then(function(stats){
           assert.ok(stats)
-          stream = this.body
-          this.socket.emit('error', new Error('boom'))
+          stream = context.body
+          context.socket.emit('error', new Error('boom'))
         })
       })
 
@@ -128,8 +129,8 @@ describe('when path exists', function () {
     it('should 200', function (done) {
       var app = koa()
       app.use(function* (next) {
-        sendfile(this, process.cwd() + '/test/fixture.txt')
-        then(assert.ok)
+        yield sendfile(this, process.cwd() + '/test/fixture.txt')
+        .then(assert.ok)
       })
 
       request(app.listen())
@@ -143,7 +144,7 @@ describe('when path exists', function () {
       var app = koa()
       fs.stat(process.cwd() + '/test/fixture.txt').then(function(stat) {
         app.use(function* (next) {
-          sendfile(this, process.cwd() + '/test/fixture.txt')
+          yield sendfile(this, process.cwd() + '/test/fixture.txt')
           .then(assert.ok)
         })
 

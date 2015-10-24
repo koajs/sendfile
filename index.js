@@ -9,13 +9,7 @@ var notfound = {
 }
 
 module.exports = function sendfile(ctx, path) {
-  return new Promise(function(resolve, reject){
-    fs.stat(path, function(err, stats){
-      if (err) return reject(err);
-      return resolve(stats);
-    });
-  })
-  .catch(onstaterror)
+  return fs.stat(path)
   .then(function(stats){
     if (!stats) return null
     if (!stats.isFile()) return stats
@@ -44,7 +38,7 @@ module.exports = function sendfile(ctx, path) {
     }
 
     return stats
-  });
+  }, onstaterror);
 }
 
 function onstaterror(err) {
