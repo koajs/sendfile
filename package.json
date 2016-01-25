@@ -12,7 +12,7 @@
   "dependencies": {
     "debug": "*",
     "etag": "^1.5.1",
-    "mz": "1"
+    "mz": "2.2.0"
   },
   "devDependencies": {
     "istanbul-harmony": "0",
