@@ -19,7 +19,7 @@
     "koa": "*",
     "co": "^3.0.5",
     "should": "^3.0",
-    "mocha": "^1.13",
+    "mocha": "^2.4.1",
     "supertest": "0"
   },
   "scripts": {
