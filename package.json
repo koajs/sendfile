@@ -12,15 +12,14 @@
   "dependencies": {
     "debug": "*",
     "etag": "^1.5.1",
-    "mz": "1"
+    "mz": "2"
   },
   "devDependencies": {
-    "istanbul-harmony": "0",
-    "koa": "*",
-    "co": "^3.0.5",
-    "should": "^3.0",
-    "mocha": "^1.13",
-    "supertest": "0"
+    "istanbul": "0",
+    "koa": "1",
+    "should": "8",
+    "mocha": "2",
+    "supertest": "1"
   },
   "scripts": {
     "test": "NODE_ENV=test mocha --harmony --require should --reporter spec",
@@ -28,8 +27,7 @@
     "test-travis": "NODE_ENV=test node --harmony ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- --require should"
   },
   "engines": {
-    "node": ">= 0.11.13",
-    "iojs": ">= 1"
+    "node": ">= 0.12"
   },
   "files": [
     "index.js"
