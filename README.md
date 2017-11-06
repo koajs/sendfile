@@ -1,6 +1,8 @@
 
 # koa sendfile
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/koajs/sendfile.svg)](https://greenkeeper.io/)
+
 [![NPM version][npm-image]][npm-url]
 [![Build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
