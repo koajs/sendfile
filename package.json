@@ -35,5 +35,8 @@
   "files": [
     "index.js"
   ],
+  "publishConfig": {
+    "tag": "latest-1"
+  },
   "license": "MIT"
 }
