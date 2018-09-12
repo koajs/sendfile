@@ -10,7 +10,7 @@
   },
   "repository": "koajs/sendfile",
   "dependencies": {
-    "debug": "*",
+    "debug": "^3.2.5",
     "etag": "^1.5.1",
     "mz": "2"
   },
