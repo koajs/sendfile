@@ -1,4 +1,3 @@
-
 # koa sendfile
 
 [![NPM version][npm-image]][npm-url]
@@ -31,11 +30,11 @@ You must pass the koa context. `filename` is the filename of the file.
 sendfile returns a promise that resolves to the `fs.stat()` result of the filename. If sendfile() resolves, that doesn't mean that a response is set - the filename could be a directory. Instead, check `if (context.status)`.
 
 ```js
-var sendfile = require('koa-sendfile')
+const sendfile = require('koa-sendfile')
 
-app.use(function* (next) {
-  var stats = yield sendfile(this, '/Users/jong/.bash_profile')
-  if (!this.status) this.throw(404)
+app.use(async function (ctx, next) {
+  const stats = await sendfile(ctx, '/Users/jong/.bash_profile')
+  if (!ctx.status) ctx.throw(404)
 })
 ```
 
