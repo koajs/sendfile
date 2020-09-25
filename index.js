@@ -1,16 +1,20 @@
-var extname = require('path').extname
-var calculate = require('etag')
-var fs = require('mz/fs')
+const promisify = require('util').promisify
+const extname = require('path').extname
+const fs = require('fs')
+const calculate = require('etag')
 
-var notfound = {
+const stat = promisify(fs.stat)
+
+const notfound = {
   ENOENT: true,
   ENAMETOOLONG: true,
-  ENOTDIR: true,
+  ENOTDIR: true
 }
 
-module.exports = function sendfile(ctx, path) {
-  return fs.stat(path)
-  .then(function(stats){
+module.exports = async function sendfile (ctx, path) {
+  try {
+    const stats = await stat(path)
+
     if (!stats) return null
     if (!stats.isFile()) return stats
 
@@ -18,19 +22,21 @@ module.exports = function sendfile(ctx, path) {
     ctx.response.lastModified = stats.mtime
     ctx.response.length = stats.size
     ctx.response.type = extname(path)
-    if (!ctx.response.etag) ctx.response.etag = calculate(stats, {
-      weak: true
-    })
+
+    if (!ctx.response.etag) {
+      ctx.response.etag = calculate(stats, {
+        weak: true
+      })
+    }
 
     // fresh based solely on last-modified
-    var fresh = ctx.request.fresh
     switch (ctx.request.method) {
       case 'HEAD':
-        ctx.response.status = fresh ? 304 : 200
+        ctx.status = ctx.request.fresh ? 304 : 200
         break
       case 'GET':
-        if (fresh) {
-          ctx.response.status = 304
+        if (ctx.request.fresh) {
+          ctx.status = 304
         } else {
           ctx.body = fs.createReadStream(path)
         }
@@ -38,11 +44,9 @@ module.exports = function sendfile(ctx, path) {
     }
 
     return stats
-  }, onstaterror);
-}
-
-function onstaterror(err) {
-  if (notfound[err.code]) return
-  err.status = 500
-  throw err
+  } catch (err) {
+    if (notfound[err.code]) return
+    err.status = 500
+    throw err
+  }
 }
