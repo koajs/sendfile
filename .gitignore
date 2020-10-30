@@ -1,7 +1,20 @@
-.DS_Store*
-*.log
-*.gz
+#       OS        #
+###################
+.DS_Store
+.idea
+Thumbs.db
+tmp
+temp
 
+
+#     Node.js     #
+###################
 node_modules
+package-lock.json
+yarn.lock
+
+
+#       NYC       #
+###################
 coverage
-cache
+.nyc_output
