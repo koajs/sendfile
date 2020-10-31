@@ -1,6 +1,6 @@
 {
   "name": "koa-sendfile",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "basic file-sending utility for koa",
   "files": [
     "index.js"
