@@ -11,6 +11,13 @@ const notfound = {
   ENOTDIR: true
 }
 
+/** @typedef {import("koa").Context} Context */
+
+/**
+ * @param {Context} ctx - Koa Context
+ * @param {string} path - path of the file to send
+ * @returns {Promise<fs.Stats>}
+ */
 module.exports = async function sendfile (ctx, path) {
   try {
     const stats = await stat(path)
